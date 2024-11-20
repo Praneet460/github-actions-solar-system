@@ -79,8 +79,11 @@ jobs:
             username: ${{ github.actor }}
             password: ${{ secrets.GH_TOKEN }}
 
+        - name: Set lowercase repository owner
+          run: echo "REPO_OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+
         - name: Docker Build
           uses: docker/build-push-action@v4
           with:
             push: true
-            tags: ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/solar-system:${{ github.sha }}
+            tags: ghcr.io/${{ env.REPO_OWNER_LC }}/solar-system:${{ github.sha }}
